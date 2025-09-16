@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('status')->default('active');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamp('date_inscription')->useCurrent();
-            $table->string('email')->unique();
             $table->foreignId('circonscription_id')->constrained('circonscriptions')->onDelete('cascade');
             $table->foreignId('departement_id')->constrained('departements')->onDelete('cascade');
             $table->foreignId('commune_id')->constrained('communes')->onDelete('cascade');

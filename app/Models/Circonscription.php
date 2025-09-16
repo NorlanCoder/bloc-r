@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Circonscription extends Model
 {
-    //
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+    ];
 }

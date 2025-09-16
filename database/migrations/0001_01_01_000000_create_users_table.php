@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('telephone')->nullable();
             $table->string('photo')->nullable();
             $table->string('status')->default('active');
-            $table->string('paiement')->default('unpaid');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
