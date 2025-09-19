@@ -1,0 +1,96 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class CommunesSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        DB::table('communes')->insert([
+            ['code_commune' => 1, 'commune_label' => 'BANIKOARA', 'code_circonscription' => 2, 'code_departement' => 1],
+            ['code_commune' => 2, 'commune_label' => 'GOGOUNOU', 'code_circonscription' => 2, 'code_departement' => 1],
+            ['code_commune' => 3, 'commune_label' => 'KANDI', 'code_circonscription' => 1, 'code_departement' => 1],
+            ['code_commune' => 4, 'commune_label' => 'KARIMAMA', 'code_circonscription' => 1, 'code_departement' => 1],
+            ['code_commune' => 5, 'commune_label' => 'MALANVILLE', 'code_circonscription' => 1, 'code_departement' => 1],
+            ['code_commune' => 6, 'commune_label' => 'SEGBANA', 'code_circonscription' => 2, 'code_departement' => 1],
+            ['code_commune' => 7, 'commune_label' => 'BOUKOUMBE', 'code_circonscription' => 3, 'code_departement' => 2],
+            ['code_commune' => 8, 'commune_label' => 'COBLY', 'code_circonscription' => 3, 'code_departement' => 2],
+            ['code_commune' => 9, 'commune_label' => 'KEROU', 'code_circonscription' => 4, 'code_departement' => 2],
+            ['code_commune' => 10, 'commune_label' => 'KOUANDE', 'code_circonscription' => 4, 'code_departement' => 2],
+            ['code_commune' => 11, 'commune_label' => 'MATERI', 'code_circonscription' => 3, 'code_departement' => 2],
+            ['code_commune' => 12, 'commune_label' => 'NATITINGOU', 'code_circonscription' => 4, 'code_departement' => 2],
+            ['code_commune' => 13, 'commune_label' => 'OUASSA-PEHUNCO', 'code_circonscription' => 4, 'code_departement' => 2],
+            ['code_commune' => 14, 'commune_label' => 'TANGUIETA', 'code_circonscription' => 3, 'code_departement' => 2],
+            ['code_commune' => 15, 'commune_label' => 'TOUKOUNTOUNA', 'code_circonscription' => 4, 'code_departement' => 2],
+            ['code_commune' => 16, 'commune_label' => 'AB-CALAVI', 'code_circonscription' => 6, 'code_departement' => 3],
+            ['code_commune' => 17, 'commune_label' => 'ALLADA', 'code_circonscription' => 5, 'code_departement' => 3],
+            ['code_commune' => 18, 'commune_label' => 'KPOMASSE', 'code_circonscription' => 5, 'code_departement' => 3],
+            ['code_commune' => 19, 'commune_label' => 'OUIDAH', 'code_circonscription' => 5, 'code_departement' => 3],
+            ['code_commune' => 20, 'commune_label' => 'SO-AVA', 'code_circonscription' => 6, 'code_departement' => 3],
+            ['code_commune' => 21, 'commune_label' => 'TOFFO', 'code_circonscription' => 5, 'code_departement' => 3],
+            ['code_commune' => 22, 'commune_label' => 'TORI-B', 'code_circonscription' => 5, 'code_departement' => 3],
+            ['code_commune' => 23, 'commune_label' => 'ZE', 'code_circonscription' => 6, 'code_departement' => 3],
+            ['code_commune' => 24, 'commune_label' => 'BEMBEREKE', 'code_circonscription' => 7, 'code_departement' => 4],
+            ['code_commune' => 25, 'commune_label' => 'KALALE', 'code_circonscription' => 7, 'code_departement' => 4],
+            ['code_commune' => 26, 'commune_label' => 'N\'DALI', 'code_circonscription' => 8, 'code_departement' => 4],
+            ['code_commune' => 27, 'commune_label' => 'NIKKI', 'code_circonscription' => 7, 'code_departement' => 4],
+            ['code_commune' => 28, 'commune_label' => 'PARAKOU', 'code_circonscription' => 8, 'code_departement' => 4],
+            ['code_commune' => 29, 'commune_label' => 'PERERE', 'code_circonscription' => 8, 'code_departement' => 4],
+            ['code_commune' => 30, 'commune_label' => 'SINENDE', 'code_circonscription' => 7, 'code_departement' => 4],
+            ['code_commune' => 31, 'commune_label' => 'TCHAOUROU', 'code_circonscription' => 8, 'code_departement' => 4],
+            ['code_commune' => 32, 'commune_label' => 'BANTE', 'code_circonscription' => 9, 'code_departement' => 5],
+            ['code_commune' => 33, 'commune_label' => 'DASSA-ZOUME', 'code_circonscription' => 9, 'code_departement' => 5],
+            ['code_commune' => 34, 'commune_label' => 'GLAZOUE', 'code_circonscription' => 10, 'code_departement' => 5],
+            ['code_commune' => 35, 'commune_label' => 'OUESSE', 'code_circonscription' => 10, 'code_departement' => 5],
+            ['code_commune' => 36, 'commune_label' => 'SAVALOU', 'code_circonscription' => 9, 'code_departement' => 5],
+            ['code_commune' => 37, 'commune_label' => 'SAVE', 'code_circonscription' => 10, 'code_departement' => 5],
+            ['code_commune' => 38, 'commune_label' => 'APLAHOUE', 'code_circonscription' => 11, 'code_departement' => 6],
+            ['code_commune' => 39, 'commune_label' => 'DJAKOTOMEY', 'code_circonscription' => 11, 'code_departement' => 6],
+            ['code_commune' => 40, 'commune_label' => 'DOGBO', 'code_circonscription' => 12, 'code_departement' => 6],
+            ['code_commune' => 41, 'commune_label' => 'KLOUEKANMEY', 'code_circonscription' => 11, 'code_departement' => 6],
+            ['code_commune' => 42, 'commune_label' => 'LALO', 'code_circonscription' => 12, 'code_departement' => 6],
+            ['code_commune' => 43, 'commune_label' => 'TOVIKLIN', 'code_circonscription' => 12, 'code_departement' => 6],
+            ['code_commune' => 44, 'commune_label' => 'BASSILA', 'code_circonscription' => 14, 'code_departement' => 7],
+            ['code_commune' => 45, 'commune_label' => 'COPARGO', 'code_circonscription' => 14, 'code_departement' => 7],
+            ['code_commune' => 46, 'commune_label' => 'DJOUGOU', 'code_circonscription' => 13, 'code_departement' => 7],
+            ['code_commune' => 47, 'commune_label' => 'OUAKE', 'code_circonscription' => 14, 'code_departement' => 7],
+            ['code_commune' => 48, 'commune_label' => 'COT.1-6', 'code_circonscription' => 15, 'code_departement' => 8],
+            ['code_commune' => 78, 'commune_label' => 'COT.7-13', 'code_circonscription' => 16, 'code_departement' => 8],
+            ['code_commune' => 49, 'commune_label' => 'ATHIEME', 'code_circonscription' => 17, 'code_departement' => 9],
+            ['code_commune' => 50, 'commune_label' => 'BOPA', 'code_circonscription' => 18, 'code_departement' => 9],
+            ['code_commune' => 51, 'commune_label' => 'COME', 'code_circonscription' => 17, 'code_departement' => 9],
+            ['code_commune' => 52, 'commune_label' => 'GRAND-POPO', 'code_circonscription' => 17, 'code_departement' => 9],
+            ['code_commune' => 53, 'commune_label' => 'HOUEYOGBE', 'code_circonscription' => 18, 'code_departement' => 9],
+            ['code_commune' => 54, 'commune_label' => 'LOKOSSA', 'code_circonscription' => 18, 'code_departement' => 9],
+            ['code_commune' => 55, 'commune_label' => 'ADJARRA', 'code_circonscription' => 19, 'code_departement' => 10],
+            ['code_commune' => 56, 'commune_label' => 'ADJOHOUN', 'code_circonscription' => 20, 'code_departement' => 10],
+            ['code_commune' => 57, 'commune_label' => 'AGUEGUES', 'code_circonscription' => 19, 'code_departement' => 10],
+            ['code_commune' => 58, 'commune_label' => 'AKP-MISSERETE', 'code_circonscription' => 20, 'code_departement' => 10],
+            ['code_commune' => 59, 'commune_label' => 'AVRANKOU', 'code_circonscription' => 20, 'code_departement' => 10],
+            ['code_commune' => 60, 'commune_label' => 'BONOU', 'code_circonscription' => 20, 'code_departement' => 10],
+            ['code_commune' => 61, 'commune_label' => 'DANGBO', 'code_circonscription' => 20, 'code_departement' => 10],
+            ['code_commune' => 62, 'commune_label' => 'PORTO-NOVO', 'code_circonscription' => 19, 'code_departement' => 10],
+            ['code_commune' => 63, 'commune_label' => 'SEME-PODJI', 'code_circonscription' => 19, 'code_departement' => 10],
+            ['code_commune' => 64, 'commune_label' => 'ADJA-OUERE', 'code_circonscription' => 21, 'code_departement' => 11],
+            ['code_commune' => 65, 'commune_label' => 'IFANGNI', 'code_circonscription' => 21, 'code_departement' => 11],
+            ['code_commune' => 66, 'commune_label' => 'KETOU', 'code_circonscription' => 22, 'code_departement' => 11],
+            ['code_commune' => 67, 'commune_label' => 'POBE', 'code_circonscription' => 22, 'code_departement' => 11],
+            ['code_commune' => 68, 'commune_label' => 'SAKETE', 'code_circonscription' => 21, 'code_departement' => 11],
+            ['code_commune' => 69, 'commune_label' => 'ABOMEY', 'code_circonscription' => 23, 'code_departement' => 12],
+            ['code_commune' => 70, 'commune_label' => 'AGBANGNIZOUN', 'code_circonscription' => 23, 'code_departement' => 12],
+            ['code_commune' => 71, 'commune_label' => 'BOHICON', 'code_circonscription' => 23, 'code_departement' => 12],
+            ['code_commune' => 72, 'commune_label' => 'COVE', 'code_circonscription' => 24, 'code_departement' => 12],
+            ['code_commune' => 73, 'commune_label' => 'DJIDJA', 'code_circonscription' => 23, 'code_departement' => 12],
+            ['code_commune' => 74, 'commune_label' => 'OUINHI', 'code_circonscription' => 24, 'code_departement' => 12],
+            ['code_commune' => 75, 'commune_label' => 'ZA-KPOTA', 'code_circonscription' => 24, 'code_departement' => 12],
+            ['code_commune' => 76, 'commune_label' => 'ZAGNANADO', 'code_circonscription' => 24, 'code_departement' => 12],
+            ['code_commune' => 77, 'commune_label' => 'ZOGBODOMEY', 'code_circonscription' => 24, 'code_departement' => 12],
+        ]);
+    }
+}

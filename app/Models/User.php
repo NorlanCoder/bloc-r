@@ -18,10 +18,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $guarded = [
-        'id',
-        'created_at',
-        'updated_at',
+    protected $fillable = [
+        'nom',
+        'prenom',
+        'email',
+        'telephone',
+        'password',
+        'photo',
+        'role',
     ];
 
     /**
@@ -47,5 +51,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isAgent()
+    {
+        return $this->role === 'agent';
     }
 }

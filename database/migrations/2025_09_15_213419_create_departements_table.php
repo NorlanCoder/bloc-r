@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('departements', function (Blueprint $table) {
             $table->id();
+            $table->integer('code_departement')->unique();
+            $table->string('departement_label');
             $table->timestamps();
         });
     }

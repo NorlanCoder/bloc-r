@@ -1,0 +1,28 @@
+<?php
+
+return [
+    ['id' => 2, 'label' => '2EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 1, 'lib_iso' => '2EME'],
+    ['id' => 1, 'label' => '1ERE CIRCONSCRIPTION ELECTORALE', 'code_dep' => 1, 'lib_iso' => '1ERE'],
+    ['id' => 3, 'label' => '3EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 2, 'lib_iso' => '3EME'],
+    ['id' => 4, 'label' => '4EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 2, 'lib_iso' => '4EME'],
+    ['id' => 6, 'label' => '6EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 3, 'lib_iso' => '6EME'],
+    ['id' => 5, 'label' => '5EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 3, 'lib_iso' => '5EME'],
+    ['id' => 7, 'label' => '7EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 4, 'lib_iso' => '7EME'],
+    ['id' => 8, 'label' => '8EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 4, 'lib_iso' => '8EME'],
+    ['id' => 9, 'label' => '9EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 5, 'lib_iso' => '9EME'],
+    ['id' => 10, 'label' => '10EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 5, 'lib_iso' => '10EME'],
+    ['id' => 11, 'label' => '11EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 6, 'lib_iso' => '11EME'],
+    ['id' => 12, 'label' => '12EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 6, 'lib_iso' => '12EME'],
+    ['id' => 14, 'label' => '14EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 7, 'lib_iso' => '14EME'],
+    ['id' => 13, 'label' => '13EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 7, 'lib_iso' => '13EME'],
+    ['id' => 15, 'label' => '15EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 8, 'lib_iso' => '15EME'],
+    ['id' => 16, 'label' => '16EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 8, 'lib_iso' => '16EME'],
+    ['id' => 17, 'label' => '17EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 9, 'lib_iso' => '17EME'],
+    ['id' => 18, 'label' => '18EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 9, 'lib_iso' => '18EME'],
+    ['id' => 19, 'label' => '19EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 10, 'lib_iso' => '19EME'],
+    ['id' => 20, 'label' => '20EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 10, 'lib_iso' => '20EME'],
+    ['id' => 21, 'label' => '21EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 11, 'lib_iso' => '21EME'],
+    ['id' => 22, 'label' => '22EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 11, 'lib_iso' => '22EME'],
+    ['id' => 23, 'label' => '23EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 12, 'lib_iso' => '23EME'],
+    ['id' => 24, 'label' => '24EME CIRCONSCRIPTION ELECTORALE', 'code_dep' => 12, 'lib_iso' => '24EME'],
+];

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('communes', function (Blueprint $table) {
             $table->id();
+            $table->string('code_commune')->unique();
+            $table->string('commune_label');
+            $table->foreignId('code_departement')->constrained('departements')->onDelete('cascade');
+            $table->foreignId('code_circonscription')->constrained('circonscriptions')->onDelete('cascade');
             $table->timestamps();
         });
     }

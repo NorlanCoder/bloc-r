@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('circonscriptions', function (Blueprint $table) {
             $table->id();
+            $table->string('code_circonscription')->unique();
+            $table->string('circonscription_label');
+            $table->foreignId('code_departement')->constrained('departements')->onDelete('cascade');
+            $table->string('lib_iso');
             $table->timestamps();
         });
     }
