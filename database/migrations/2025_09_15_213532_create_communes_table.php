@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('communes', function (Blueprint $table) {
-            $table->id();
+            $table->integer('code_com')->nullable()->index();
+            $table->string('lib_com', 32)->nullable();
+            $table->integer('code_circ')->nullable();
+            $table->integer('code_dep')->nullable();
+            
+            $table->foreign('code_circ')->references('code_circ')->on('circonscriptions');
+            $table->foreign('code_dep')->references('code_dep')->on('departements');
             $table->timestamps();
         });
     }

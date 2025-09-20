@@ -1,61 +1,212 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Bloc-R - Système de Gestion des Militants
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📋 Description
 
-## About Laravel
+**Bloc-R** est une application web Laravel développée pour la gestion des militants d'un parti politique. L'application permet aux agents du parti d'enregistrer, gérer et suivre les militants à travers un système géographique organisé par départements, circonscriptions et communes.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fonctionnalités Principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👥 Gestion des Militants
+- **Enregistrement** des nouveaux militants avec informations personnelles
+- **Gestion des statuts** (actif, inactif, suspendu)
+- **Suivi des paiements** (payé, impayé, en attente)
+- **Système de vérification** (en cours, correct, refusé, corrigé)
+- **Gestion des photos** de profil
+- **Génération de cartes de référence** uniques
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🗺️ Organisation Géographique
+- **12 Départements** du Bénin
+- **24 Circonscriptions** électorales
+- **78 Communes** municipales
+- **Relations hiérarchiques** entre les entités géographiques
 
-## Learning Laravel
+### 🔐 Authentification et Sécurité
+- **Système d'authentification** avec Laravel Sanctum
+- **Gestion des tokens** API sécurisés
+- **Contrôle d'accès** basé sur les rôles
+- **Validation des données** robuste
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📊 Suivi et Rapports
+- **Filtrage avancé** par statut, paiement, vérification
+- **Recherche** par nom, prénom, email, référence
+- **Pagination** des résultats
+- **Historique des opérations**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Technologies Utilisées
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Backend**: Laravel 12.x
+- **Base de données**: MySQL
+- **Authentification**: Laravel Sanctum
+- **API**: RESTful API
+- **Validation**: Laravel Validation
+- **Storage**: Laravel Storage (photos)
 
-## Laravel Sponsors
+## 📁 Structure du Projet
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```
+bloc-r/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Api/AuthController.php      # Authentification API
+│   │   └── MilitantController.php      # Gestion des militants
+│   └── Models/
+│       ├── User.php                    # Modèle utilisateur
+│       ├── Militant.php               # Modèle militant
+│       ├── Departement.php            # Modèle département
+│       ├── Circonscription.php        # Modèle circonscription
+│       ├── Communes.php               # Modèle commune
+│       ├── Paiement.php               # Modèle paiement
+│       ├── Operation.php              # Modèle opération
+│       └── Impression.php             # Modèle impression
+├── database/
+│   ├── migrations/                     # Migrations de base de données
+│   └── seeders/                       # Données de référence
+├── routes/
+│   └── api.php                        # Routes API
+└── storage/
+    └── app/public/photos/             # Stockage des photos
+```
 
-### Premium Partners
+## 🗄️ Modèle de Données
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Entités Principales
 
-## Contributing
+1. **Users** - Agents du parti
+2. **Militants** - Membres du parti
+3. **Departements** - Départements géographiques
+4. **Circonscriptions** - Circonscriptions électorales
+5. **Communes** - Communes municipales
+6. **Paiements** - Historique des paiements
+7. **Operations** - Journal des opérations
+8. **Impressions** - Gestion des impressions
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Relations
 
-## Code of Conduct
+- Un **User** peut gérer plusieurs **Militants**
+- Un **Militant** appartient à un **Département**, une **Circonscription** et une **Commune**
+- Une **Circonscription** appartient à un **Département**
+- Une **Commune** appartient à une **Circonscription** et un **Département**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🔧 Installation
 
-## Security Vulnerabilities
+### Prérequis
+- PHP 8.2+
+- Composer
+- MySQL 5.7+
+- Node.js (optionnel pour le frontend)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Étapes d'installation
 
-## License
+1. **Cloner le projet**
+```bash
+git clone [url-du-repo]
+cd bloc-r
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. **Installer les dépendances**
+```bash
+composer install
+```
+
+3. **Configuration de l'environnement**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Configuration de la base de données**
+Modifier le fichier `.env` :
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bloc-r
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+5. **Exécuter les migrations et seeders**
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+6. **Démarrer le serveur**
+```bash
+php artisan serve
+```
+
+L'application sera accessible sur `http://localhost:8000`
+
+## 📚 Documentation API
+
+Voir [API_DOCUMENTATION.md](./docs/API_DOCUMENTATION.md) pour la documentation complète de l'API.
+
+## 🗃️ Base de Données
+
+Voir [DATABASE_DOCUMENTATION.md](./docs/DATABASE_DOCUMENTATION.md) pour la documentation de la base de données.
+
+## 🧪 Tests
+
+```bash
+# Exécuter tous les tests
+php artisan test
+
+# Exécuter les tests avec couverture
+php artisan test --coverage
+```
+
+## 📝 Logs
+
+Les logs de l'application sont stockés dans `storage/logs/laravel.log`
+
+```bash
+# Suivre les logs en temps réel
+php artisan pail
+```
+
+## 🚀 Déploiement
+
+### Production
+
+1. **Optimiser l'application**
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+2. **Configurer le serveur web** (Apache/Nginx)
+
+3. **Configurer les permissions**
+```bash
+chmod -R 755 storage bootstrap/cache
+```
+
+## 🤝 Contribution
+
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 👥 Équipe
+
+- **Développeur Principal**: [Votre nom]
+- **Email**: [votre.email@example.com]
+
+## 📞 Support
+
+Pour toute question ou problème, veuillez :
+1. Vérifier la [documentation](./docs/)
+2. Consulter les [issues](../../issues)
+3. Créer une nouvelle issue si nécessaire
+
+---
+
+**Bloc-R** - Système de gestion des militants pour un parti politique moderne et efficace.

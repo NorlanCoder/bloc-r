@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('circonscriptions', function (Blueprint $table) {
-            $table->id();
+            $table->integer('code_circ')->nullable()->index();
+            $table->string('lib_circ', 32)->nullable();
+            $table->integer('code_dep')->nullable();
+            $table->string('lib_iso', 10);
+            
+            $table->foreign('code_dep')->references('code_dep')->on('departements');
             $table->timestamps();
         });
     }

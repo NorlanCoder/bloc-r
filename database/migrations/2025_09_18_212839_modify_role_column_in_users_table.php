@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departements', function (Blueprint $table) {
-            $table->integer('code_dep')->primary();
-            $table->string('lib_dep', 60);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['super_admin', 'admin', 'agent'])->default('agent')->change();
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departements');
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['admin', 'agent'])->default('agent')->change();
+        });
     }
 };

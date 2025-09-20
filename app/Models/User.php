@@ -24,6 +24,12 @@ class User extends Authenticatable
         'updated_at',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_active' => 'boolean',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -46,6 +52,31 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Relation avec les militants
+     */
+    public function militants()
+    {
+        return $this->hasMany(Militant::class);
+    }
+
+    /**
+     * Scope pour filtrer par rôle
+     */
+    public function scopeByRole($query, $role)
+    {
+        return $query->where('role', $role);
+    }
+
+    /**
+     * Scope pour filtrer par statut actif
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }
