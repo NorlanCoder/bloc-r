@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MilitantController extends Controller
 {
@@ -122,19 +123,19 @@ class MilitantController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info($request);
         try {
             $validator = Validator::make($request->all(), [
                 'nom' => 'required|string|max:255',
                 'prenom' => 'required|string|max:255',
                 'email' => 'required|email|unique:militants,email',
                 'telephone' => 'nullable|string|max:20',
-                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'addresse' => 'nullable|string|max:255',
+                'adresse' => 'nullable|string|max:255',
                 'profession' => 'nullable|string|max:255',
-                'sexe' => 'nullable|string|in:masculin,feminin',
-                'circonscription_id' => 'required|exists:circonscriptions,id',
-                'departement_id' => 'required|exists:departements,id',
-                'commune_id' => 'required|exists:communes,id',
+                'sexe' => 'nullable|string',
+                'circonscription_id' => 'required|exists:circonscriptions,code_circ',
+                'departement_id' => 'required|exists:departements,code_dep',
+                'commune_id' => 'required|exists:communes,code_com',
             ]);
 
             if ($validator->fails()) {
@@ -148,23 +149,58 @@ class MilitantController extends Controller
             $data = $request->all();
             
             // Gestion de l'upload de photo
-            if ($request->hasFile('photo')) {
-                $photo = $request->file('photo');
-                $photoName = time() . '_' . Str::slug($data['nom'] . '_' . $data['prenom']) . '.' . $photo->getClientOriginalExtension();
-                $photo->storeAs('public/militants', $photoName);
-                $data['photo'] = 'militants/' . $photoName;
+            if ($request->filled('photo')) {
+                $photoData = $request->photo;
+
+                if (preg_match('/^data:image\/(\w+);base64,/', $photoData, $type)) {
+                    $photoData = substr($photoData, strpos($photoData, ',') + 1);
+                    $type = strtolower($type[1]);
+
+                    $photoData = base64_decode($photoData);
+                    if ($photoData === false) {
+                        return response()->json(['success' => false, 'message' => 'Image invalide'], 422);
+                    }
+
+                    $photoName = time() . '_' . Str::slug($request->nom . '_' . $request->prenom) . '.' . $type;
+
+                    // 🔥 Sauvegarde directe dans public/militants
+                    $path = public_path("storage/militants/{$photoName}");
+
+                    // Crée le dossier s’il n’existe pas
+                    if (!file_exists(dirname($path))) {
+                        mkdir(dirname($path), 0777, true);
+                    }
+
+                    file_put_contents($path, $photoData);
+
+                    $data['photo'] = "militants/{$photoName}";
+                }
             }
+
             
             // Génération de la référence de carte unique
             $data['reference_carte'] = 'MIL-' . strtoupper(Str::random(8));
             
-            $militant = Militant::create($data);
-            $militant->load(['user', 'circonscription', 'departement', 'commune']);
+            $militant = Militant::create([
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'telephone' => $request->telephone,
+                'photo' => $data['photo'],
+                'adresse' => $request->adresse,
+                'profession' => $request->profession,
+                'sexe' => $request->sexe,
+                'circonscription_id' => $request->circonscription_id,
+                'departement_id' => $request->departement_id,
+                'commune_id' => $request->commune_id,
+                'reference_carte' => $data['reference_carte'],
+                'user_id'=>Auth::user()->id
+            ]);
+            // $militant->load(['user', 'circonscription', 'departement', 'commune']);
             
             return response()->json([
                 'success' => true,
-                'message' => 'Militant créé avec succès',
-                'data' => $militant
+                'message' => 'Militant créé avec succès'
             ], 201);
             
         } catch (\Exception $e) {
@@ -197,7 +233,7 @@ class MilitantController extends Controller
                 'email' => 'sometimes|required|email|unique:militants,email,' . $id,
                 'telephone' => 'nullable|string|max:20',
                 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'addresse' => 'nullable|string|max:255',
+                'adresse' => 'nullable|string|max:255',
                 'profession' => 'nullable|string|max:255',
                 'sexe' => 'nullable|string|in:masculin,feminin',
                 'circonscription_id' => 'sometimes|exists:circonscriptions,id',
@@ -394,5 +430,38 @@ class MilitantController extends Controller
             'success' => true,
             'data' => $circonscriptions
         ], 200);
+    }
+
+    public function getStatistique(Request $request) {
+        $user = Auth::user();
+
+        $militant_femme = Militant::where('user_id',$user->id)
+                                    ->where('sexe', 'Femme')
+                                    ->get();
+        $militant_homme = Militant::where('user_id',$user->id)
+                            ->where('sexe', 'Homme')
+                            ->get();
+        $militant_impaye = Militant::where('user_id',$user->id)
+                                    ->where('status_paiement', 'unpaid')
+                                    ->get();
+        $militant_paye = Militant::where('user_id',$user->id)
+                                    ->where('status_paiement', 'paid')
+                                    ->get();
+        $militant_non_imprime = Militant::where('user_id',$user->id)
+                                    ->where('status_impression', 'not_printed')
+                                    ->get();
+        $militant_imprime = Militant::where('user_id',$user->id)
+                                    ->where('status_impression', 'printed')
+                                    ->get();
+
+        return response()->json([
+            'success' => true,
+            'militantFemme' => $militant_femme,
+            'militantHomme' => $militant_homme,
+            'militantPaye' => $militant_paye,
+            'militantImpaye' => $militant_impaye,
+            'militantImprime' => $militant_imprime,
+            'militantNonImprime' => $militant_non_imprime,
+        ],200);
     }
 }

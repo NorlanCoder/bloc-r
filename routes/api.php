@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/militants/{id}', [MilitantController::class, 'update']); // Modifier un militant
         Route::delete('/militants/{id}', [MilitantController::class, 'destroy']);
         Route::get('/militants/agent/{agent_id}', [MilitantController::class, 'getByAgent']); // Militants d'un agent
+        Route::get('/statistique', [MilitantController::class, 'getStatistique']);
     });
 
     // Routes pour les admins

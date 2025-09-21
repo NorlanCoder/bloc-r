@@ -30,7 +30,7 @@ class Militant extends Model
      */
     public function circonscription(): BelongsTo
     {
-        return $this->belongsTo(Circonscription::class);
+        return $this->belongsTo(Circonscription::class, 'circonscription_id', 'code_circ');
     }
 
     /**
@@ -38,7 +38,7 @@ class Militant extends Model
      */
     public function departement(): BelongsTo
     {
-        return $this->belongsTo(Departement::class);
+        return $this->belongsTo(Departement::class, 'departement_id', 'code_dep');
     }
 
     /**
@@ -46,7 +46,7 @@ class Militant extends Model
      */
     public function commune(): BelongsTo
     {
-        return $this->belongsTo(Commune::class);
+        return $this->belongsTo(Communes::class, 'departement_id', 'code_com');
     }
 
     /**
@@ -96,4 +96,5 @@ class Militant extends Model
               ->orWhere('reference_carte', 'like', "%{$search}%");
         });
     }
+
 }
