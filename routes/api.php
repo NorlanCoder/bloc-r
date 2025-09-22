@@ -42,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
         
         // Paiements
         Route::post('/payments', [AdminController::class, 'makePayment']); // Paiement manuel
+
+        Route::get('/agents', [SuperAdminController::class, 'listAgents']); // Liste des agents
+        Route::post('/agents/{id}/toggle', [SuperAdminController::class, 'toggleAgentStatus']); // Activer/Désactiver agent
         
         // Gestion des demandes
         Route::get('/demandes', [AdminController::class, 'listDemandes']); // Liste des demandes
