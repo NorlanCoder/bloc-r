@@ -11,6 +11,8 @@ use App\Models\Operation;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -300,16 +302,84 @@ class AdminController extends Controller
      */
     public function getStats()
     {
-        $stats = [
-            'total_militants' => Militant::count(),
-            'militants_actifs' => Militant::where('status', 'active')->count(),
-            'militants_payes' => Militant::where('status_paiement', 'paid')->count(),
-            'militants_imprimes' => Militant::where('status_impression', 'printed')->count(),
-            'militants_verifies' => Militant::where('status_verification', 'correct')->count(),
-            'militants_en_cours' => Militant::where('status_verification', 'en_cours')->count(),
-            'militants_refuses' => Militant::where('status_verification', 'refuse')->count(),
+        $user = Auth::user();
+
+        $militant_femme = Militant::where('sexe', 'Femme')
+                            ->get();
+        $militant_homme = Militant::where('sexe', 'Homme')
+                            ->get();
+        $militant_impaye = Militant::where('status_paiement', 'unpaid')
+                            ->get();
+        $militant_paye = Militant::where('status_paiement', 'paid')
+                            ->get();
+        $militant_non_imprime = Militant::where('status_impression', 'not_printed')
+                            ->get();
+        $militant_imprime = Militant::where('status_impression', 'printed')
+                            ->get();
+
+
+        $departements = [
+            "ALIBORI",
+            "ATACORA",
+            "ATLANTIQ.",
+            "BORGOU",
+            "COLLINES",
+            "COUFFO",
+            "DONGA",
+            "LITTORAL",
+            "MONO",
+            "OUEME",
+            "PLATEAU",
+            "ZOU",
         ];
 
-        return response()->json($stats);
+        $stats = Militant::select('departement_id', DB::raw('count(*) as total'))
+            ->groupBy('departement_id')
+            ->with('departement') // relation Eloquent
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->departement->lib_dep => $item->total];
+            });
+
+        // On formate pour s’assurer que tous les départements de la liste soient présents, même avec 0
+        $result1 = collect($departements)->map(function ($dep) use ($stats) {
+            return $stats[$dep] ?? 0;
+        })->values()->toArray();
+
+
+        $year = Carbon::now()->year;
+        $stats = DB::table('militants')
+            ->selectRaw('MONTH(updated_at) as mois')
+            ->selectRaw("SUM(CASE WHEN status_impression = 'printed' THEN 1 ELSE 0 END) as imprimes")
+            ->selectRaw("SUM(CASE WHEN status_impression = 'not_printed' THEN 1 ELSE 0 END) as non_imprimes")
+            ->whereYear('updated_at', $year)
+            ->groupBy('mois')
+            ->get();
+
+        // 12 mois remplis
+        $imprimes = collect(range(1, 12))->map(function ($m) use ($stats) {
+            return (int) optional($stats->firstWhere('mois', $m))->imprimes ?? 0;
+        })->toArray();
+
+        $nonImprimes = collect(range(1, 12))->map(function ($m) use ($stats) {
+            return (int) optional($stats->firstWhere('mois', $m))->non_imprimes ?? 0;
+        })->toArray();
+
+
+        return response()->json([
+            'success' => true,
+            'militantFemme' => $militant_femme,
+            'militantHomme' => $militant_homme,
+            'militantPaye' => $militant_paye,
+            'militantImpaye' => $militant_impaye,
+            'militantImprime' => $militant_imprime,
+            'militantNonImprime' => $militant_non_imprime,
+            'graphique1' => $result1,
+            'graphique2' => [
+                'imprimes' => $imprimes,
+                'nonImprimes' => $nonImprimes
+            ],
+
+        ],200);
     }
 }

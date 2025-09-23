@@ -23,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
     Route::put('profile', [AuthController::class, 'updateProfile']); // Modifier le profile
 
+    // Gestion des agents
+    Route::get('/agents', [SuperAdminController::class, 'listAgents']); // Liste des agents
+    Route::post('/agents/{id}/toggle', [SuperAdminController::class, 'toggleAgentStatus']); // Activer/Désactiver agent
+
 
     // Routes pour les agents
     Route::middleware('role:agent')->prefix('agent')->group(function () {
@@ -55,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/profile', [AdminController::class, 'updateProfile']); // Modifier le profil
         
         // Statistiques
-        Route::get('/stats', [AdminController::class, 'getStats']); // Statistiques
+        Route::get('/statistique', [AdminController::class, 'getStats']); // Statistiques
     });
 
     // Routes pour les super admins
@@ -64,10 +68,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/admins', [SuperAdminController::class, 'addAdmin']); // Ajouter un admin
         Route::get('/admins', [SuperAdminController::class, 'listAdmins']); // Liste des admins
         Route::post('/admins/{id}/toggle', [SuperAdminController::class, 'toggleAdminStatus']); // Activer/Désactiver admin
-        
-        // Gestion des agents
-        Route::get('/agents', [SuperAdminController::class, 'listAgents']); // Liste des agents
-        Route::post('/agents/{id}/toggle', [SuperAdminController::class, 'toggleAgentStatus']); // Activer/Désactiver agent
         
         // Gestion des demandes
         Route::get('/demandes', [SuperAdminController::class, 'listDemandes']); // Liste des demandes
@@ -82,6 +82,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/profile', [SuperAdminController::class, 'updateProfile']); // Modifier le profil
         
         // Statistiques
-        Route::get('/stats', [SuperAdminController::class, 'getStats']); // Statistiques générales
+        Route::get('/statistique', [SuperAdminController::class, 'getStats']); // Statistiques générales
     });
 });
