@@ -16,6 +16,9 @@ Route::get('/departements', [MilitantController::class, 'getDepartements']);
 Route::get('/circonscriptions', [MilitantController::class, 'getCirconscriptions']);
 Route::get('/communes', [MilitantController::class, 'getCommunes']);
 
+
+Route::put('/paiement/callback', [MilitantController::class, 'callbackPaiement']);
+
 // Routes protégées par authentification
 Route::middleware('auth:sanctum')->group(function () {
     // Routes communes à tous les utilisateurs authentifiés

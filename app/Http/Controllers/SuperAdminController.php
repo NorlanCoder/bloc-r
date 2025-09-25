@@ -152,6 +152,7 @@ class SuperAdminController extends Controller
     public function toggleAgentStatus($id)
     {
         $agent = User::where('id', $id)->where('role', 'agent')->first();
+        $user = Auth::user();
 
         if (!$agent) {
             return response()->json(['message' => 'Agent non trouvé'], 404);
@@ -165,6 +166,8 @@ class SuperAdminController extends Controller
         // Log de l'opération
         Operation::create([
             'militant_id' => null,
+            'admin_id' => $user->id,
+            'impression_id' => null,
             'type_operation' => 'agent_status_changed',
             'description' => "Super Admin a {$status} l'agent: {$agent->nom} {$agent->prenom}",
             'details' => json_encode(['agent_id' => $agent->id, 'new_status' => $agent->is_active, 'changed_by' => Auth::id()])

@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         // verifier si l'utilisateur est actif
         if (!$user->is_active) {
-            return response()->json(['message' => 'Account is not active'], 401);
+            return response()->json(['message' => 'Account is not active', 'code' => 'nonoctive'], 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('type_operation')->default('impression');
             $table->timestamp('date_operation')->useCurrent();
-            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->string('description')->nullable();
-            $table->foreignId('impression_id')->constrained('impressions')->onDelete('cascade');
+            $table->foreignId('impression_id')->constrained('impressions')->onDelete('cascade')->nullable();
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });

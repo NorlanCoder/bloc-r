@@ -7,6 +7,7 @@ use App\Models\Militant;
 use App\Models\User;
 use App\Models\Circonscription;
 use App\Models\Departement;
+use App\Models\Paiement;
 use App\Models\Communes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -522,5 +523,44 @@ class MilitantController extends Controller
             ],
 
         ],200);
+    }
+
+    public function callbackPaiement(Request $request)
+    {
+        $id = $request->query("id");
+        $status = $request->query("status");
+        $militantId = $request->query("militant_id");
+        $reference = $request->query("reference");
+        $prix = $request->query("prix");
+
+        // $cle_fedaplay = config("app.cle_fedaplay");
+
+        // $response = Http::withHeaders([
+        //     'Authorization' => "Bearer ". $cle_fedaplay,
+        //     'Content-Type' => 'application/json',
+        // ])->get("https://api.fedapay.com/v1/transactions/".$id);
+
+        if ($status == "approved") {
+            $militant = Militant::find($militantId);
+            $militant->status_paiement = "paid";
+            $militant->save();
+
+            Paiement::create([
+                'militant_id' => $militantId,
+                'type_paiement' => "online",
+                'montant' => $prix,
+                'admin_id' => 1,
+                'date_paiement' => now(),
+                'reference' => $reference
+            ]);
+
+            return response()->json([
+                'success' => true,
+            ],200);
+        } else {
+            return response()->json([
+                'success' => false,
+            ],200);
+        }
     }
 }
