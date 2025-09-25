@@ -257,7 +257,7 @@ class SuperAdminController extends Controller
     /**
      * Modifier le prix de la carte
      */
-    public function updatePrix(Request $request, $id)
+    public function updatePrix(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'montant' => 'required|numeric|min:0'
@@ -270,21 +270,22 @@ class SuperAdminController extends Controller
             ], 422);
         }
 
-        $prix = Prix::find($id);
+        $prix = Prix::all()->first();
 
         if (!$prix) {
-            return response()->json(['message' => 'Prix non trouvé'], 404);
+            Prix::create(['montant' => $request->montant]);
+        } else {
+            $ancien_montant = $prix->montant;
+            $prix->montant = $request->montant;
+            $prix->save();
         }
-
-        $ancien_montant = $prix->montant;
-        $prix->montant = $request->montant;
-        $prix->save();
 
         // Log de l'opération
         Operation::create([
-            'militant_id' => null,
+            'admin_id' => Auth::id(),
+            'impression_id' => null,
             'type_operation' => 'prix_updated',
-            'description' => "Super Admin a modifié le prix de {$prix->libelle} de {$ancien_montant} à {$request->montant}",
+            'description' => "Super Admin a modifié le de {$ancien_montant} à {$request->montant}",
             'details' => json_encode(['prix_id' => $prix->id, 'ancien_montant' => $ancien_montant, 'nouveau_montant' => $request->montant, 'updated_by' => Auth::id()])
         ]);
 
@@ -292,6 +293,12 @@ class SuperAdminController extends Controller
             'message' => 'Prix modifié avec succès',
             'prix' => $prix
         ]);
+    }
+
+    public function getPrix(Request $request) {
+        $prix = Prix::all();
+
+        return response()->json($prix);
     }
 
     /**
@@ -482,4 +489,103 @@ class SuperAdminController extends Controller
 
         ],200);
     }
+
+    public function listMilitants(Request $request)
+    {
+        $query = Militant::query();
+
+        if ($request->has('search')) {
+            $query->where('nom', 'like', '%' . $request->search . '%')
+                ->orWhere('prenom', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('departement')) {
+            $query->where('departement_id', $request->departement);
+        }
+
+        if ($request->has('circonscription')) {
+            $query->where('circonscription_id', $request->circonscription);
+        }
+
+        if ($request->has('commune')) {
+            $query->where('commune_id', $request->commune);
+        }
+
+        if ($request->has('status_impression')) {
+            $query->where('status_impression', $request->status_impression);
+        }
+
+        if ($request->has('status_paiement')) {
+            $query->where('status_paiement', $request->status_paiement);
+        }
+
+        $militants = $query->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+    public function listMilitantsRejected()
+    {
+        $militants = Militant::where('status_verification', 'refuse')->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+    public function listMilitantsCorrected()
+    {
+        $militants = Militant::where('status_verification', 'corrige')->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+    public function listMilitantsPayed()
+    {
+        $militants = Militant::where('status_paiement', 'paid')->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+    public function listMilitantsUnpayed()
+    {
+        $militants = Militant::where('status_paiement', 'unpaid')->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+    public function listMilitantsPrinted()
+    {
+        $militants = Militant::where('status_impression', 'printed')->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+    public function listMilitantsNotprinted()
+    {
+        $militants = Militant::where('status_impression', 'not_printed')->get();
+
+        return response()->json([
+            'success' => true,
+            'militants' => $militants,
+        ],200);
+    }
+
+
 }

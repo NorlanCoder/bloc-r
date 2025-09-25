@@ -16,6 +16,8 @@ Route::get('/departements', [MilitantController::class, 'getDepartements']);
 Route::get('/circonscriptions', [MilitantController::class, 'getCirconscriptions']);
 Route::get('/communes', [MilitantController::class, 'getCommunes']);
 
+// Gestion des prix
+Route::get('/prix', [SuperAdminController::class, 'getPrix']); // Modifier le prix
 
 Route::put('/paiement/callback', [MilitantController::class, 'callbackPaiement']);
 
@@ -29,6 +31,20 @@ Route::middleware('auth:sanctum')->group(function () {
     // Gestion des agents
     Route::get('/agents', [SuperAdminController::class, 'listAgents']); // Liste des agents
     Route::post('/agents/{id}/toggle', [SuperAdminController::class, 'toggleAgentStatus']); // Activer/Désactiver agent
+
+    // Gestion des demandes
+    Route::get('/demandes', [SuperAdminController::class, 'listDemandes']); // Liste des demandes
+    Route::post('/demandes/{id}/reject', [SuperAdminController::class, 'rejectDemande']); // Refuser une demande
+    Route::post('/demandes/{id}/print', [SuperAdminController::class, 'markAsPrinted']); // Marquer comme imprimé
+
+    // Liste des militants
+    Route::get('/militants', [SuperAdminController::class, 'listMilitants']);
+    Route::get('/militants/rejecter', [SuperAdminController::class, 'listMilitantsRejected']);
+    Route::get('/militants/corriger', [SuperAdminController::class, 'listMilitantsCorrected']);
+    Route::get('/militants/payer', [SuperAdminController::class, 'listMilitantsPayed']);
+    Route::get('/militants/impayer', [SuperAdminController::class, 'listMilitantsUnpayed']);
+    Route::get('/militants/imprimer', [SuperAdminController::class, 'listMilitantsPrinted']);
+    Route::get('/militants/non-imprimer', [SuperAdminController::class, 'listMilitantsNotprinted']);
 
 
     // Routes pour les agents
@@ -49,14 +65,6 @@ Route::middleware('auth:sanctum')->group(function () {
         
         // Paiements
         Route::post('/payments', [AdminController::class, 'makePayment']); // Paiement manuel
-
-        Route::get('/agents', [SuperAdminController::class, 'listAgents']); // Liste des agents
-        Route::post('/agents/{id}/toggle', [SuperAdminController::class, 'toggleAgentStatus']); // Activer/Désactiver agent
-        
-        // Gestion des demandes
-        Route::get('/demandes', [AdminController::class, 'listDemandes']); // Liste des demandes
-        Route::post('/demandes/{id}/reject', [AdminController::class, 'rejectDemande']); // Refuser une demande
-        Route::post('/demandes/{id}/print', [AdminController::class, 'markAsPrinted']); // Marquer comme imprimé
         
         // Profil
         Route::put('/profile', [AdminController::class, 'updateProfile']); // Modifier le profil
@@ -72,14 +80,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/admins', [SuperAdminController::class, 'listAdmins']); // Liste des admins
         Route::post('/admins/{id}/toggle', [SuperAdminController::class, 'toggleAdminStatus']); // Activer/Désactiver admin
         
-        // Gestion des demandes
-        Route::get('/demandes', [SuperAdminController::class, 'listDemandes']); // Liste des demandes
-        Route::post('/demandes/{id}/reject', [SuperAdminController::class, 'rejectDemande']); // Refuser une demande
-        Route::post('/demandes/{id}/print', [SuperAdminController::class, 'markAsPrinted']); // Marquer comme imprimé
         Route::post('/demandes/{id}/reactivate-print', [SuperAdminController::class, 'reactivateImpression']); // Réactiver impression
         
         // Gestion des prix
-        Route::put('/prix/{id}', [SuperAdminController::class, 'updatePrix']); // Modifier le prix
+        Route::put('/prix', [SuperAdminController::class, 'updatePrix']); // Modifier le prix
         
         // Profil
         Route::put('/profile', [SuperAdminController::class, 'updateProfile']); // Modifier le profil
