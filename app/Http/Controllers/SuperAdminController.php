@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Militant;
 use App\Models\Prix;
 use App\Models\Operation;
+use App\Models\Impression;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -220,7 +221,7 @@ class SuperAdminController extends Controller
     public function rejectDemande(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'motif_refus' => 'required|string|max:255'
+            'motif_refus' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -242,7 +243,8 @@ class SuperAdminController extends Controller
 
         // Log de l'opération
         Operation::create([
-            'militant_id' => $militant->id,
+            'admin_id' => Auth::id(),
+            'impression_id' => null,
             'type_operation' => 'demande_rejected',
             'description' => "Super Admin a refusé la demande de {$militant->nom} {$militant->prenom}",
             'details' => json_encode(['motif' => $request->motif_refus, 'rejected_by' => Auth::id()])
@@ -250,6 +252,37 @@ class SuperAdminController extends Controller
 
         return response()->json([
             'message' => 'Demande refusée avec succès',
+            'militant' => $militant
+        ]);
+    }
+
+    /**
+     * Refuser une demande
+     */
+    public function acceptDemande(Request $request, $id)
+    {
+
+        $militant = Militant::find($id);
+
+        if (!$militant) {
+            return response()->json(['message' => 'Demande non trouvée'], 404);
+        }
+
+        $militant->status_verification = 'correct';
+        $militant->motif_refus = '';
+        $militant->save();
+
+        // Log de l'opération
+        Operation::create([
+            'admin_id' => Auth::id(),
+            'impression_id' => null,
+            'type_operation' => 'demande_accepted',
+            'description' => "Super Admin a accepté la correction de la demande de {$militant->nom} {$militant->prenom}",
+            'details' => json_encode(['accepted_by' => Auth::id()])
+        ]);
+
+        return response()->json([
+            'message' => 'Demande acceptée avec succès',
             'militant' => $militant
         ]);
     }
@@ -343,9 +376,16 @@ class SuperAdminController extends Controller
         $militant->status_impression = 'printed';
         $militant->save();
 
+        $impression = Impression::create([
+            'militant_id' => $militant->id,
+            'user_id' => Auth::id(),
+            'date_impression' => now()
+        ]);
+
         // Log de l'opération
         Operation::create([
-            'militant_id' => $militant->id,
+            'admin_id' => $militant->id,
+            'impression_id' => $impression->id,
             'type_operation' => 'card_printed',
             'description' => "Super Admin a marqué la carte comme imprimée pour {$militant->nom} {$militant->prenom}",
             'details' => json_encode(['printed_by' => Auth::id()])

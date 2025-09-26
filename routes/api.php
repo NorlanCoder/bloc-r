@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Gestion des demandes
     Route::get('/demandes', [SuperAdminController::class, 'listDemandes']); // Liste des demandes
     Route::post('/demandes/{id}/reject', [SuperAdminController::class, 'rejectDemande']); // Refuser une demande
+    Route::post('/demandes/{id}/accept', [SuperAdminController::class, 'acceptDemande']); // Refuser une demande
     Route::post('/demandes/{id}/print', [SuperAdminController::class, 'markAsPrinted']); // Marquer comme imprimé
 
     // Liste des militants
